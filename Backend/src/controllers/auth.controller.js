@@ -1,6 +1,8 @@
 import User from "../models/User.model.js";
 import jwt from "jsonwebtoken";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 // Generate JWT token
 const generateToken = (user) => {
     return jwt.sign({ 
@@ -14,15 +16,28 @@ const generateToken = (user) => {
 // Register a new user
 const register = async (req, res) => {
     const { name, email, password } = req.body;
-    const UserExists = await User.findOne({ email });
+
+    if (!name || name.trim().length < 2) {
+        return res.status(400).json({ message: "Name must be at least 2 characters" });
+    }
+
+    if (!email || !emailRegex.test(email)) {
+        return res.status(400).json({ message: "Enter a valid email address" });
+    }
+
+    if (!password || password.length < 6) {
+        return res.status(400).json({ message: "Password must be at least 6 characters" });
+    }
+
+    const UserExists = await User.findOne({ email: email.toLowerCase() });
 
     if (UserExists) {
         return res.status(400).json({ message: "User already exists" });
     }
 
     const user = await User.create({
-        name,
-        email,
+        name: name.trim(),
+        email: email.toLowerCase(),
         password
     });
 
@@ -42,9 +57,14 @@ const register = async (req, res) => {
 // Login user
 const login = async (req, res) => {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
 
-    if (!user) {
+    if (!email || !password) {
+        return res.status(400).json({ message: "Email and password are required" });
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase() });
+
+    if (!user || !user.isActive) {
         return res.status(400).json({ message: "Invalid email or password" });
     }
 
