@@ -5,6 +5,14 @@ import User from "../models/User.model.js";
 
 const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 
+const getPagination = (query) => {
+    const page = Math.max(parseInt(query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(query.limit, 10) || 10, 1), 50);
+    const skip = (page - 1) * limit;
+
+    return { page, limit, skip };
+};
+
 const populateProject = (query) =>
     query
         .populate("createdBy", "name email role")
@@ -25,12 +33,19 @@ const getProjects = async (req, res) => {
         req.user.role === "admin"
             ? {}
             : { members: req.user._id };
+    const { page, limit, skip } = getPagination(req.query);
 
-    const projects = await populateProject(Project.find(filter).sort({ createdAt: -1 }));
+    const [projects, totalProjects] = await Promise.all([
+        populateProject(Project.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit)),
+        Project.countDocuments(filter)
+    ]);
 
     res.json({
         success: true,
         count: projects.length,
+        totalProjects,
+        page,
+        totalPages: Math.ceil(totalProjects / limit) || 1,
         projects
     });
 };
@@ -206,11 +221,55 @@ const addProjectMember = async (req, res) => {
     });
 };
 
+// Remove member from project
+const removeProjectMember = async (req, res) => {
+    if (!isValidId(req.params.id) || !isValidId(req.params.memberId)) {
+        return res.status(400).json({ success: false, message: "Invalid project or member id" });
+    }
+
+    const project = await Project.findById(req.params.id);
+
+    if (!project) {
+        return res.status(404).json({ success: false, message: "Project not found" });
+    }
+
+    if (project.createdBy.toString() === req.params.memberId) {
+        return res.status(400).json({
+            success: false,
+            message: "Project creator cannot be removed from the project"
+        });
+    }
+
+    project.members = project.members.filter(
+        (member) => member.toString() !== req.params.memberId
+    );
+
+    await project.save();
+
+    await Task.updateMany(
+        {
+            project: req.params.id,
+            assignedTo: req.params.memberId,
+            status: { $ne: "done" }
+        },
+        { assignedTo: project.createdBy }
+    );
+
+    const populatedProject = await populateProject(Project.findById(project._id));
+
+    res.json({
+        success: true,
+        message: "Member removed from project",
+        project: populatedProject
+    });
+};
+
 export {
     addProjectMember,
     createProject,
     deleteProject,
     getProjectById,
     getProjects,
+    removeProjectMember,
     updateProject
 };

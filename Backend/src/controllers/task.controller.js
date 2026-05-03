@@ -7,6 +7,14 @@ const isValidId = (id) => mongoose.Types.ObjectId.isValid(id);
 const allowedStatuses = ["todo", "in-progress", "done"];
 const allowedPriorities = ["low", "medium", "high"];
 
+const getPagination = (query) => {
+    const page = Math.max(parseInt(query.page, 10) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(query.limit, 10) || 10, 1), 50);
+    const skip = (page - 1) * limit;
+
+    return { page, limit, skip };
+};
+
 const populateTask = (query) =>
     query
         .populate("project", "name")
@@ -25,6 +33,7 @@ const canViewTask = (task, user) => {
 
 const getTasks = async (req, res) => {
     const filter = req.user.role === "admin" ? {} : { assignedTo: req.user._id };
+    const { page, limit, skip } = getPagination(req.query);
 
     if (req.query.project) {
         if (!isValidId(req.query.project)) {
@@ -42,11 +51,17 @@ const getTasks = async (req, res) => {
         filter.status = req.query.status;
     }
 
-    const tasks = await populateTask(Task.find(filter).sort({ createdAt: -1 }));
+    const [tasks, totalTasks] = await Promise.all([
+        populateTask(Task.find(filter).sort({ createdAt: -1 }).skip(skip).limit(limit)),
+        Task.countDocuments(filter)
+    ]);
 
     res.json({
         success: true,
         count: tasks.length,
+        totalTasks,
+        page,
+        totalPages: Math.ceil(totalTasks / limit) || 1,
         tasks
     });
 };
