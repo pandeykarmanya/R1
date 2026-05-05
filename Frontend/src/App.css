@@ -3,14 +3,15 @@
 }
 
 .app-shell {
+  background: #000000;
+  color: #39ff14;
   min-height: 100vh;
-  background: #f3f4f6;
 }
 
 .navbar {
   align-items: center;
-  background: #ffffff;
-  border-bottom: 1px solid #d1d5db;
+  background: #000000;
+  border-bottom: 1px solid #39ff14;
   display: flex;
   gap: 16px;
   justify-content: space-between;
@@ -40,9 +41,10 @@
 
 .brand-mark {
   align-items: center;
-  background: #2563eb;
+  background: #39ff14;
+  border: 1px solid #39ff14;
   border-radius: 8px;
-  color: #ffffff;
+  color: #000000;
   display: flex;
   font-weight: 700;
   height: 42px;
@@ -54,8 +56,9 @@
 .page-header p,
 .muted,
 .card p,
-.task-row p {
-  color: #6b7280;
+.task-row p,
+.user-box small {
+  color: #39ff14;
 }
 
 .navbar-right {
@@ -65,8 +68,8 @@
 }
 
 .navbar nav {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -75,7 +78,7 @@
 }
 
 .user-box {
-  border: 1px solid #d1d5db;
+  border: 1px solid #39ff14;
   border-radius: 8px;
   display: grid;
   gap: 2px;
@@ -88,7 +91,6 @@
 }
 
 .user-box small {
-  color: #6b7280;
   text-transform: capitalize;
 }
 
@@ -96,21 +98,21 @@
 .link-btn,
 .pagination button,
 .chip button {
-  background: #ffffff;
-  border: 1px solid transparent;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 6px;
-  color: #111827;
+  color: #39ff14;
   padding: 9px 12px;
   text-transform: capitalize;
 }
 
 .nav-btn.active,
 .primary-btn {
-  background: #2563eb;
-  border: 1px solid #2563eb;
+  background: #39ff14;
+  border: 1px solid #39ff14;
   border-radius: 6px;
-  color: #ffffff;
-  font-weight: 600;
+  color: #000000;
+  font-weight: 700;
   padding: 10px 14px;
 }
 
@@ -143,8 +145,8 @@
 .card,
 .auth-card,
 .task-row {
-  background: #ffffff;
-  border: 1px solid #d1d5db;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 8px;
 }
 
@@ -153,11 +155,12 @@
 }
 
 .stat-card p {
-  color: #6b7280;
+  color: #39ff14;
   margin: 0 0 8px;
 }
 
 .stat-card strong {
+  color: #39ff14;
   font-size: 28px;
 }
 
@@ -197,22 +200,27 @@
 }
 
 label {
-  color: #374151;
+  color: #39ff14;
   display: grid;
   gap: 6px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 input,
 select,
 textarea {
-  background: #ffffff;
-  border: 1px solid #d1d5db;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 6px;
-  color: #111827;
+  color: #39ff14;
   min-height: 42px;
   padding: 10px;
   width: 100%;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #39ff14;
 }
 
 textarea {
@@ -222,7 +230,8 @@ textarea {
 
 .auth-page {
   align-items: center;
-  background: #f3f4f6;
+  background: #000000;
+  color: #39ff14;
   display: flex;
   justify-content: center;
   min-height: 100vh;
@@ -248,10 +257,10 @@ textarea {
 }
 
 .alert {
-  background: #ffffff;
-  border: 1px solid #2563eb;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 6px;
-  color: #111827;
+  color: #39ff14;
   margin: 0;
   padding: 10px 12px;
 }
@@ -265,7 +274,7 @@ textarea {
 
 .check-row {
   align-items: center;
-  border: 1px solid #d1d5db;
+  border: 1px solid #39ff14;
   border-radius: 6px;
   display: flex;
   font-weight: 500;
@@ -280,9 +289,10 @@ textarea {
 
 .chip {
   align-items: center;
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 999px;
+  color: #39ff14;
   display: inline-flex;
   gap: 6px;
   padding: 6px 8px;
@@ -322,9 +332,10 @@ textarea {
 }
 
 .status {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
+  background: #000000;
+  border: 1px solid #39ff14;
   border-radius: 999px;
+  color: #39ff14;
   padding: 6px 10px;
   text-align: center;
 }
