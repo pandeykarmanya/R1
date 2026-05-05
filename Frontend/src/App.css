@@ -20,6 +20,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.18);
 }
 
 .navbar h2,
@@ -49,6 +50,7 @@
   font-weight: 700;
   height: 42px;
   justify-content: center;
+  letter-spacing: 0.5px;
   width: 42px;
 }
 
@@ -84,6 +86,7 @@
   gap: 2px;
   min-width: 120px;
   padding: 8px 10px;
+  text-align: left;
 }
 
 .user-box span {
@@ -106,6 +109,14 @@
   text-transform: capitalize;
 }
 
+.nav-btn:hover,
+.link-btn:hover,
+.pagination button:hover,
+.chip button:hover {
+  background: #39ff14;
+  color: #000000;
+}
+
 .nav-btn.active,
 .primary-btn {
   background: #39ff14;
@@ -114,6 +125,10 @@
   color: #000000;
   font-weight: 700;
   padding: 10px 14px;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
 }
 
 .main {
@@ -132,6 +147,8 @@
 .page-header {
   display: grid;
   gap: 6px;
+  border-left: 4px solid #39ff14;
+  padding-left: 14px;
 }
 
 .stats-grid {
@@ -148,10 +165,17 @@
   background: #000000;
   border: 1px solid #39ff14;
   border-radius: 8px;
+  box-shadow: 0 0 0 1px rgba(57, 255, 20, 0.08);
 }
 
 .stat-card {
   padding: 16px;
+}
+
+.stat-card:hover,
+.card:hover,
+.task-row:hover {
+  box-shadow: 0 0 16px rgba(57, 255, 20, 0.22);
 }
 
 .stat-card p {
@@ -220,7 +244,7 @@ textarea {
 
 input::placeholder,
 textarea::placeholder {
-  color: #39ff14;
+  color: rgba(57, 255, 20, 0.68);
 }
 
 textarea {
@@ -244,6 +268,7 @@ textarea {
   max-width: 420px;
   padding: 24px;
   width: 100%;
+  box-shadow: 0 0 24px rgba(57, 255, 20, 0.16);
 }
 
 .auth-title {
@@ -263,6 +288,7 @@ textarea {
   color: #39ff14;
   margin: 0;
   padding: 10px 12px;
+  font-weight: 700;
 }
 
 .checkbox-list,
@@ -338,6 +364,7 @@ textarea {
   color: #39ff14;
   padding: 6px 10px;
   text-align: center;
+  text-transform: capitalize;
 }
 
 .pagination {
@@ -347,6 +374,12 @@ textarea {
   justify-content: center;
   margin-top: auto;
   padding-top: 12px;
+}
+
+.pagination span {
+  border: 1px solid #39ff14;
+  border-radius: 6px;
+  padding: 9px 12px;
 }
 
 @media (max-width: 800px) {
